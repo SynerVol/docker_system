@@ -1,0 +1,41 @@
+services:
+
+  vite-app:
+    build:
+      context: ./vite-app
+      args:
+        REPO_URL: https://github.com/SynerVol/WebPage.git
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+    networks:
+      - drone-net
+
+  mavproxy:
+    build:
+      context: ./mavproxy
+      args:
+        REPO_URL: https://github.com/SynerVol/Simulation_MavProxy.git
+    ports:
+      - "14550:14550/udp"
+      - "14551:14551/udp"
+    restart: unless-stopped
+    networks:
+      - drone-net
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0  # if using serial, adjust as needed
+
+  ai-app:
+    build:
+      context: ./ai-app
+      args:
+        REPO_URL: https://github.com/SynerVol/yolo_drone.git1.
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - drone-net
+
+networks:
+  drone-net:
+    driver: bridge
