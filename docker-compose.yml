@@ -5,8 +5,24 @@ services:
       context: ./vite-app
       args:
         REPO_URL: https://github.com/SynerVol/WebPage.git
+    depends_on:
+      - python-back
     ports:
       - "5173:5173"
+    restart: unless-stopped
+    networks:
+      - drone-net
+
+  python-back:
+    build:
+      context: ./python-back
+      args:
+        REPO_URL: https://github.com/SynerVol/MiddleWare.git
+    environment:
+      - LEADER_PORT='tcp:192.168.1.23:5763'
+      - FOLLOWER_PORT='tcp:192.168.1.23:5773'
+    ports:
+      - "8080:8080"
     restart: unless-stopped
     networks:
       - drone-net
@@ -22,8 +38,8 @@ services:
     restart: unless-stopped
     networks:
       - drone-net
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0  # if using serial, adjust as needed
+    #devices:
+    #  - /dev/ttyUSB0:/dev/ttyUSB0  # if using serial, adjust as needed
 
   ai-app:
     build:
