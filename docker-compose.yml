@@ -45,7 +45,7 @@ services:
     build:
       context: ./ai-app
       args:
-        REPO_URL: https://github.com/SynerVol/yolo_drone.git1.
+        REPO_URL: https://github.com/SynerVol/yolo_drone.git
     ports:
       - "8000:8000"
     restart: unless-stopped
