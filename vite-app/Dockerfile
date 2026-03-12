@@ -4,15 +4,13 @@ WORKDIR /app
 
 RUN apk add --no-cache git
 
-RUN apt-get update && apt-get install -y \
-    python3-dev \
-    nano \
-    && rm -rf /var/lib/apt/lists/*
 
-ARG REPO_URL
-RUN git clone $REPO_URL .
+ARG REPO_URL 
+RUN echo -e "cloning ${REPO_URL} or $REPO_URL"
+#RUN git clone $REPO_URL .
+RUN git clone ${REPO_URL} repo && mv repo/* .
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 EXPOSE 5173

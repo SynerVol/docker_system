@@ -19,5 +19,5 @@ EXPOSE 14550
 EXPOSE 14551
 
 #CMD ["python", "mavproxy.py"]
-CMD ["python", "/usr/local/bin/mavproxy.py", "--master", "tcp:192.168.1.23:5760", "--master", "tcp:192.168.1.23:5770", "--map", "--console", "--load-module=swarm"]
+#CMD ["python", "/usr/local/bin/mavproxy.py", "--master", "tcp:192.168.1.23:5760", "--master", "tcp:192.168.1.23:5770", "--map", "--console", "--load-module=swarm"]
 

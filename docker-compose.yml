@@ -4,7 +4,7 @@ services:
     build:
       context: ./vite-app
       args:
-        REPO_URL: https://github.com/SynerVol/WebPage.git
+        REPO_URL: "https://github.com/SynerVol/WebPage.git"
     depends_on:
       - python-back
     ports:
@@ -32,10 +32,22 @@ services:
       context: ./mavproxy
       args:
         REPO_URL: https://github.com/SynerVol/Simulation_MavProxy.git
+    devices:
+      - "/dev/ttyACM0:/dev/video_drone"
+    user: root
     ports:
       - "14550:14550/udp"
       - "14551:14551/udp"
     restart: unless-stopped
+    command: >
+      python /usr/local/bin/mavproxy.py
+      --master=/dev/video_drone
+      --baudrate 115200
+      --out udpin:0.0.0.0:14550
+      --out udpin:0.0.0.0:14551
+      --daemon
+      --nowait
+      --non-interactive
     networks:
       - drone-net
     #devices:
@@ -51,7 +63,25 @@ services:
     restart: unless-stopped
     networks:
       - drone-net
+    volumes:
+      - ./screenshots:/tmp
+    devices:
+      - "/dev/video0:/dev/video0"
+    group_add:
+      - video
+    stdin_open: true
+    tty: true
+
+  cloudflare-tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    command: tunnel run
+    networks:
+      - drone-net
 
 networks:
   drone-net:
     driver: bridge
+
