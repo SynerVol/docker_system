@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libopenblas-dev \
     v4l-utils \
+    python3-picamera2 \
     curl \
     ca-certificates \
     && update-ca-certificates \

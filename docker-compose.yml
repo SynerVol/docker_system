@@ -18,6 +18,8 @@ services:
       context: ./python-back
       args:
         REPO_URL: https://github.com/SynerVol/MiddleWare.git
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
     environment:
       - LEADER_PORT='tcp:192.168.1.23:5763'
       - FOLLOWER_PORT='tcp:192.168.1.23:5773'
@@ -65,8 +67,23 @@ services:
       - drone-net
     volumes:
       - ./screenshots:/tmp
+      - /run/udev:/run/udev:ro
     devices:
       - "/dev/video0:/dev/video0"
+      - "/dev/video10:/dev/video10"
+      - "/dev/video11:/dev/video11"
+      - "/dev/video12:/dev/video12"
+      - "/dev/video13:/dev/video13"
+      - "/dev/video14:/dev/video14"
+      - "/dev/video15:/dev/video15"
+      - "/dev/video16:/dev/video16"
+      - "/dev/video18:/dev/video18"
+      - "/dev/video19:/dev/video19"
+      - "/dev/video20:/dev/video20"
+      - "/dev/video21:/dev/video21"
+      - "/dev/video22:/dev/video22"
+      - "/dev/video23:/dev/video23"
+      - "/dev/video31:/dev/video31"
     group_add:
       - video
     stdin_open: true
@@ -80,6 +97,8 @@ services:
     command: tunnel run
     networks:
       - drone-net
+    depends_on:
+      - vite-app
 
 networks:
   drone-net:
